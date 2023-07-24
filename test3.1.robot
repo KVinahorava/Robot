@@ -14,7 +14,7 @@ ${age}    30
 @{char}    a    b    c   d   e   f   g   h  i    j   k  l   m   n   o   p   q   r   s   t   u   v   w   x   y   z
 ${i}    0
 &{fruits_colors}    apple=green     banana=yellow   orange=orange   kiwi=green  ananas=yellow   mango=yellow    lime=green  limon=yellow    pear=green  melon=yellow
-${do}   True
+
 
 *** Test Cases ***
 1 Test
@@ -79,10 +79,15 @@ ${do}   True
         log to console    ${new_list}
 
 7 Test
-    ${new_list}    create list
-    ${value}    get dictionary values   &{fruits_colors}
-    ${key}      get dictionary keys    &{fruits_colors}
-    WHILE    '${value}' == 'green'
-        append to list    ${new_list}   ${key}
+   ${new_list}    create list
+   ${i}       get length    ${fruits_colors}
+   ${keys}     get dictionary keys    ${fruits_colors}
+   ${values}     get dictionary values    ${fruits_colors}
+
+    WHILE    '${i}' != '0'
+        IF  '${values[${i-1}]}' == 'green'
+            append to list    ${new_list}    ${keys[${i-1}]}
+        END
+        ${i}    evaluate    ${i}-1
     END
         log to console      ${new_list}
